@@ -9,11 +9,33 @@ wrapper.addEventListener("click", function () {
     input.click();
 })
 
-wrapperAll.forEach(x => {
-    x.addEventListener("dragover", function (e) {
-        e.preventDefault();
-        console.log(this);
+wrapper.addEventListener("dragover", function (e) {
+    e.preventDefault();
+})
+
+wrapper.addEventListener("drop", function (e) {
+    e.preventDefault();
+    let dt = e.dataTransfer;
+    [...dt.files].forEach(file => {
+        
+        let fileReader = new FileReader();
+        let div = document.createElement("div");
+        area.forEach(x => {
+            x.appendChild(div);
+        })
+        div.classList.add("remove");
+        fileReader.onload = function () {
+            div.innerHTML = "<img src ='" + this.result + "' title = '" + (file.size / 1024).toFixed(2) + " kb" + "' /> <span>X</span>"
+            let span = document.querySelectorAll("span");
+            span.forEach(x => {
+                x.addEventListener("click", function () {
+                    this.parentElement.remove();
+                })
+            })
+        }
+        fileReader.readAsDataURL(file);
     })
+
 })
 
 
