@@ -17,7 +17,11 @@ wrapper.addEventListener("drop", function (e) {
     e.preventDefault();
     let dt = e.dataTransfer;
     [...dt.files].forEach(file => {
-        
+        var size = parseFloat(file.size / 1024).toFixed(2);
+        if(size>4000){
+            alert("File size cant be higher than 4mb");
+            return;
+        }
         let fileReader = new FileReader();
         let div = document.createElement("div");
         area.forEach(x => {
@@ -41,9 +45,10 @@ wrapper.addEventListener("drop", function (e) {
 
 input.addEventListener("change", function () {
     [...this.files].forEach(file => {
-        if (file.size / 2048 > 3) {
-            alert("File size is big");
-            return
+        var size = parseFloat(file.size / 1024).toFixed(2);
+        if(size>4000){
+            alert("File size cant be higher than 4mb");
+            return;
         }
         let fileReader = new FileReader();
         let div = document.createElement("div");
